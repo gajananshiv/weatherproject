@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+{%load static%}
+<html>
+<head>
+    <title>Weather App</title>
+    <link rel="stylesheet" href="{%static 'css/styles.css' %}">
+    <script>
+        // JavaScript function to display the current time in the user's local timezone
+        function displayCurrentTime() {
+            var currentTime = new Date().toLocaleTimeString();
+            document.getElementById("current-time").innerHTML = currentTime;
+        }
+        // Call the function once the page is loaded
+        window.onload = displayCurrentTime
+    </script>
+
+</head>
+<body>
+
+    <h1>Weather Application</h1>
+    <form method="POST" action="{% url 'weather' %}">
+        {% csrf_token %}
+        <input type="text" name="city" placeholder="Enter city name" required>
+        <button type="submit">Get Weather</button>
+    </form>
+
+
+
+    {% if weathers %}
+        <div class="id">
+            <h2>Weather Information</h2>
+            <h1>Current Time: <span id="current-time"></span></h1>
+            City : {{ weathers.city }} <br><br>
+            Condition : {{ weathers.condition }} <br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Temperature : {{ weathers.temperature }}°C <br><br>
+            Humidity : {{ weathers.humidity }}%
+
+        </div>
+    {% else %}
+        <p>No weather information available.</p>
+    {% endif %}
+</body>
+</html>
